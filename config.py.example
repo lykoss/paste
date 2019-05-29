@@ -1,0 +1,34 @@
+# Session key. Changing this will invalidate all existing admin sessions.
+# This should be random!
+SESSION_KEY = b""
+
+# Database credentials, used to store paste info
+DB_HOST = "localhost"  # Hostname of MySQL server or absolute path to unix socket
+DB_PORT = 3306  # Port of MySQL server (not used if DB_HOST points to a unix socket)
+DB_NAME = ""  # Database name
+DB_USER = "some_username"  # Database user, must have read/write access to db
+DB_PASS = "some_password"  # Password for database user
+
+# Notification (webhook) settings
+# If enabled, POST to this address with a payload indicating a new paste
+# was made. The POST body will be a JSON document detailed in webhooks.txt.
+WEBHOOK_ENABLE = False  # Whether or not to enable the webhook
+WEBHOOK_URL = ""  # URL to POST to
+# PEM encoded private key to sign webhook
+WEBHOOK_KEY = """
+"""
+
+# OAuth (admin area) settings. Admins can view/manage all pastes and create short URL redirects
+OAUTH_ENABLE = False  # Whether to enable the admin area. Requires OAuth login.
+OAUTH_ENDPOINT = ""  # Base URL to wiki, not including index.php or api.php
+OAUTH_CONSUMER_KEY = ""  # OAuth consumer key
+OAUTH_SECRET_KEY = ""  # OAuth secret key
+
+# ElasticSearch settings
+ELASTIC_ENABLE = False  # Whether to send incoming pastes to ElasticSearch
+ELASTIC_URL = ""  # URL to ES instance. Cloud ID also supported here
+ELASTIC_PORT = 0  # Port of ES instance
+ELASTIC_USER = ""  # If ES requires auth, the username to use (optional)
+ELASTIC_PASS = ""  # If ES requires auth, the password to use (optional)
+ELASTIC_INDEX = ""  # Index name to use. The user must have ability to write to this index
+ELASTIC_PIPELINE = ""  # Ingest node pipeline to use (optional)
