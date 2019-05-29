@@ -7,4 +7,4 @@ CREATE TABLE pastes (
     paste_content text NOT NULL,
     CONSTRAINT pastes_paste_slug UNIQUE KEY (paste_slug),
     INDEX pastes_paste_expires (paste_expires)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
