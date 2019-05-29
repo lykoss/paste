@@ -15,7 +15,7 @@ def run():
     with DbConnection() as conn:
         conn.execute("""CREATE TABLE IF NOT EXISTS migrations (
             migration_key varchar(150) PRIMARY KEY,
-            migration_time datetime)""")
+            migration_time datetime) ENGINE=InnoDB""")
         applied_migrations = set()
         for row in conn.execute("SELECT migration_key FROM migrations"):
             applied_migrations.add(row["migration_key"])
