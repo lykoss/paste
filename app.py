@@ -53,6 +53,7 @@ def submit():
                      VALUES (%s, DATE_ADD(NOW(), INTERVAL 7 DAY), 'paste', %s)""", (slug, data["c"]))
         return jsonify({"status": "success", "url": request.url_root + slug})
 
+
 @app.route("/<slug>")
 def get_paste(slug):
     if len(slug) > 16:

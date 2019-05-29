@@ -20,8 +20,10 @@ def run():
         for row in conn.execute("SELECT migration_key FROM migrations"):
             applied_migrations.add(row["migration_key"])
         for p in sorted(pathlib.Path("migrations").iterdir()):
-            if p.is_file() and p[-4:] == ".sql":
-                _apply_migration(p.name[:-4], str(p.absolute()), conn, applied_migrations)
+            filename = str(p.name)
+            filepath = str(p.absolute())
+            if p.is_file() and filename[-4:] == ".sql":
+                _apply_migration(filename[:-4], filepath, conn, applied_migrations)
 
 
 def _apply_migration(name: str, path: str, conn: DbConnection, already_applied: Set[str]) -> None:
