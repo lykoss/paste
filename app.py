@@ -63,7 +63,7 @@ def submit():
 def get_webhook_key():
     if not config.WEBHOOK_ENABLE:
         return jsonify({"status": "error", "error": "Webhook is disabled"}), 403
-    pkey = base64.b64encode(webhook.get_public_key())
+    pkey = base64.b64encode(webhook.get_public_key()).decode("ascii")
     return jsonify({"status": "success", "public": pkey})
 
 
