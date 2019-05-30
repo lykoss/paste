@@ -14,9 +14,8 @@ DB_PASS = "some_password"  # Password for database user
 # was made. The POST body will be a JSON document detailed in api.txt.
 WEBHOOK_ENABLE = False  # Whether or not to enable the webhook
 WEBHOOK_URL = ""  # URL to POST to
-# PEM encoded private key to sign webhook
-WEBHOOK_KEY = """
-"""
+# Ed25519 private key to sign webhook
+WEBHOOK_KEY = b""
 
 # OAuth (admin area) settings. Admins can view/manage all pastes and create short URL redirects
 OAUTH_ENABLE = False  # Whether to enable the admin area. Requires OAuth login.

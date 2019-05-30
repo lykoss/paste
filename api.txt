@@ -10,6 +10,16 @@ Response body:
 }
 
 ====================
+GET /webhook_key -- Retrieve the public key to verify webhook signatures
+====================
+This should be performed once and saved off in config rather than queried each time.
+Response body:
+{
+  "status": "success" (string)
+  "public": raw ed25519 public key (string)
+}
+
+====================
 POST /submit -- Add a new paste
 ====================
 The request body must be a JSON document.
@@ -30,7 +40,7 @@ Error Messages
 When an error occurs, the response takes on the following form:
 {
   "status": "error",
-  "message": Description of the error (string)
+  "error": Description of the error (string)
 }
 
 Additionally, the HTTP status code will be indicative of the type of error that occurred.
@@ -39,9 +49,9 @@ Additionally, the HTTP status code will be indicative of the type of error that 
 Webhooks
 ====================
 If a webhook is configured, the system will send a POST request to the webhook destination.
-The request will be signed by a configurable key; it is assumed the public key is shared with the
-webhook destination a priori so that it can properly validate the signature. To avoid replay attacks,
-the webhook destination may wish to look at the "date" and "nonce" parameters and do things with them.
+The request will be signed by a configurable key (see GET /webhook_key) so that it can properly validate
+the signature. To avoid replay attacks, the webhook destination may wish to look at the "date" and "nonce"
+parameters and do things with them.
 
 Request headers:
 Content-Type: application/json; charset=utf-8
@@ -52,13 +62,14 @@ Request body:
 {
   "type": "newpaste" (string),
   "url": fully qualified url of paste (string),
-  "nonce": random number (integer),
+  "nonce": unique hex string (string),
   "date": UTC current time in "YYYY-mm-dd HH:ii:ss" format (string)
 }
 
 To validate the signature, take the request body as-is (before parsing the json), calculate its SHA-256 hash,
 and then compare that hash to the decrypted hash from the X-Signature request header (base64-decode then decrypt
-using the known public key). If any of the following is true, the endpoint should reject the webhook and take no action
+using the known public key using ed25519). If any of the following is true, the endpoint should reject the webhook
+and take no action:
 1. Decrypted signature does not match calculated signature
 2. Nonce has been repeated in the past 30 minutes
 3. Date is older than a few minutes ago (to allow for clock skew)

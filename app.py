@@ -6,6 +6,8 @@ from pygments import highlight
 from pygments.lexers import Python3TracebackLexer
 from pygments.formatters import HtmlFormatter
 import db
+import config
+import webhook
 
 app = Flask(__name__)
 
@@ -51,7 +53,16 @@ def submit():
             return jsonify({"status": "error", "error": "Unable to get unique URL slug"}), 500
         conn.execute("""INSERT INTO pastes (paste_slug, paste_expires, paste_type, paste_content)
                      VALUES (%s, DATE_ADD(UTC_TIMESTAMP(), INTERVAL 7 DAY), 'paste', %s)""", (slug, data["c"]))
-        return jsonify({"status": "success", "url": request.url_root + slug})
+        paste_url = request.url_root + slug
+        webhook.send_newpaste(paste_url)
+        return jsonify({"status": "success", "url": paste_url})
+
+
+@app.route("/webhook_key")
+def get_webhook_key():
+    if not config.WEBHOOK_ENABLE:
+        return jsonify({"status": "error", "error": "Webhook is disabled"}), 403
+    return jsonify({"status": "success", "public": webhook.get_public_key()})
 
 
 @app.route("/<slug>")
