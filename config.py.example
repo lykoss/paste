@@ -11,7 +11,7 @@ DB_PASS = "some_password"  # Password for database user
 
 # Notification (webhook) settings
 # If enabled, POST to this address with a payload indicating a new paste
-# was made. The POST body will be a JSON document detailed in webhooks.txt.
+# was made. The POST body will be a JSON document detailed in api.txt.
 WEBHOOK_ENABLE = False  # Whether or not to enable the webhook
 WEBHOOK_URL = ""  # URL to POST to
 # PEM encoded private key to sign webhook

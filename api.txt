@@ -1,0 +1,70 @@
+====================
+GET /<id> -- Retrieve a paste
+====================
+You must send an "Accept: application/json" header to receive a JSON body instead of HTML.
+Response body:
+{
+  "status": "success" (string, see Handling Errors below for error details),
+  "data": raw paste content (string),
+  "expires": UTC paste expiration date in "YYYY-mm-dd HH:ii:ss" form (string)
+}
+
+====================
+POST /submit -- Add a new paste
+====================
+The request body must be a JSON document.
+Request body:
+{
+  "c": Paste contents (string)
+}
+
+Response body:
+{
+  "status": "success" (string, see Handling Errors below for error details),
+  "url": fully qualified url to view paste (string)
+}
+
+====================
+Error Messages
+====================
+When an error occurs, the response takes on the following form:
+{
+  "status": "error",
+  "message": Description of the error (string)
+}
+
+Additionally, the HTTP status code will be indicative of the type of error that occurred.
+
+====================
+Webhooks
+====================
+If a webhook is configured, the system will send a POST request to the webhook destination.
+The request will be signed by a configurable key; it is assumed the public key is shared with the
+webhook destination a priori so that it can properly validate the signature. To avoid replay attacks,
+the webhook destination may wish to look at the "date" and "nonce" parameters and do things with them.
+
+Request headers:
+Content-Type: application/json; charset=utf-8
+X-Webhook-Signature: base64-encoded signature over SHA-256 hash of request body
+X-Webhook-Version: 1.0.0
+
+Request body:
+{
+  "type": "newpaste" (string),
+  "url": fully qualified url of paste (string),
+  "nonce": random number (integer),
+  "date": UTC current time in "YYYY-mm-dd HH:ii:ss" format (string)
+}
+
+To validate the signature, take the request body as-is (before parsing the json), calculate its SHA-256 hash,
+and then compare that hash to the decrypted hash from the X-Signature request header (base64-decode then decrypt
+using the known public key). If any of the following is true, the endpoint should reject the webhook and take no action
+1. Decrypted signature does not match calculated signature
+2. Nonce has been repeated in the past 30 minutes
+3. Date is older than a few minutes ago (to allow for clock skew)
+4. Request is coming from an IP outside of the known IP range(s) of the sender
+
+The endpoint should return HTTP 200 OK if the webhook is successful and a 4xx or 5xx error code otherwise.
+An optional response body may be sent, but it is currently ignored
+This software does not currently examine or do anything about the error or response body, but that may change
+in the future.

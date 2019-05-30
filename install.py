@@ -25,6 +25,7 @@ def run():
             if p.is_file() and filename[-4:] == ".sql":
                 _apply_migration(filename[:-4], filepath, conn, applied_migrations)
 
+    print("Install complete. Remember to configure your config.py and add a cron job or scheduled task for cron.py!")
 
 def _apply_migration(name: str, path: str, conn: DbConnection, already_applied: Set[str]) -> None:
     """
@@ -43,7 +44,7 @@ def _apply_migration(name: str, path: str, conn: DbConnection, already_applied: 
     with open(path, "r") as f:
         conn.execute(f.read(), multi=True)
         already_applied.add(name)
-        conn.execute("INSERT INTO migrations (migration_key, migration_time) VALUES (%s, NOW())",
+        conn.execute("INSERT INTO migrations (migration_key, migration_time) VALUES (%s, UTC_TIMESTAMP())",
                      (name,))
 
 

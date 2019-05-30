@@ -50,7 +50,7 @@ def submit():
             print(f"Unable to get unique URL slug, tried {slug}", file=stderr)
             return jsonify({"status": "error", "error": "Unable to get unique URL slug"}), 500
         conn.execute("""INSERT INTO pastes (paste_slug, paste_expires, paste_type, paste_content)
-                     VALUES (%s, DATE_ADD(NOW(), INTERVAL 7 DAY), 'paste', %s)""", (slug, data["c"]))
+                     VALUES (%s, DATE_ADD(UTC_TIMESTAMP(), INTERVAL 7 DAY), 'paste', %s)""", (slug, data["c"]))
         return jsonify({"status": "success", "url": request.url_root + slug})
 
 
@@ -75,6 +75,7 @@ def get_paste(slug):
     return highlight(data["paste_content"],
                      Python3TracebackLexer(),
                      HtmlFormatter(full=True, linenos="table", lineanchors="l", anchorlinenos=True, wrapcode=True))
+
 
 if __name__ == "__main__":
     app.run()
