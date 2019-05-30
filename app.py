@@ -1,6 +1,7 @@
 from sys import stderr
 import string
 import random
+import base64
 from flask import Flask, request, redirect, jsonify, abort, render_template
 from pygments import highlight
 from pygments.lexers import Python3TracebackLexer
@@ -62,7 +63,8 @@ def submit():
 def get_webhook_key():
     if not config.WEBHOOK_ENABLE:
         return jsonify({"status": "error", "error": "Webhook is disabled"}), 403
-    return jsonify({"status": "success", "public": webhook.get_public_key()})
+    pkey = base64.b64encode(webhook.get_public_key())
+    return jsonify({"status": "success", "public": pkey})
 
 
 @app.route("/<slug>")
