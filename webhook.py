@@ -38,7 +38,7 @@ def send_newpaste(url: str) -> None:
             "nonce": secrets.token_hex(),
             "date": datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")}
     json_data = json.dumps(data)
-    digest.update(json_data)
+    digest.update(json_data.encode("utf-8"))
     sig = base64.b64encode(key.sign(digest.finalize()))
     headers = {"Content-Type": "application/json; charset=utf-8",
                "X-Webhook-Version": "1.0.0",

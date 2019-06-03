@@ -67,7 +67,7 @@ Request body:
 }
 
 To validate the signature, take the request body as-is (before parsing the json), calculate its SHA-256 hash,
-and then compare that hash to the decrypted hash from the X-Signature request header (base64-decode then decrypt
+and then compare that hash to the decrypted hash from the X-Webhook-Signature request header (base64-decode then decrypt
 using the known public key using ed25519). If any of the following is true, the endpoint should reject the webhook
 and take no action:
 1. Decrypted signature does not match calculated signature
