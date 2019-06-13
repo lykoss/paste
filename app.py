@@ -9,6 +9,7 @@ from pygments.formatters import HtmlFormatter
 import db
 import config
 import webhook
+from style import SimpleStyle
 
 app = Flask(__name__)
 
@@ -87,7 +88,9 @@ def get_paste(slug):
         return jsonify({"status": "success", "data": data["paste_content"], "expires": data["paste_expires"]})
     return highlight(data["paste_content"],
                      Python3TracebackLexer(),
-                     HtmlFormatter(full=True, linenos="table", lineanchors="l", anchorlinenos=True, wrapcode=True))
+                     HtmlFormatter(full=True, linenos="table", lineanchors="l",
+                                   anchorlinenos=True, wrapcode=True,
+                                   style=SimpleStyle))
 
 
 if __name__ == "__main__":
