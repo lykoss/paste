@@ -83,7 +83,7 @@ def get_paste(slug):
         else:
             abort(404)
     if data["paste_type"] == "redirect":
-        redirect(data["paste_content"])
+        return redirect(data["paste_content"])
     if _wants_json():
         return jsonify({"status": "success", "data": data["paste_content"], "expires": data["paste_expires"]})
     output = highlight(data["paste_content"],
