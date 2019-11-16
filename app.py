@@ -86,11 +86,17 @@ def get_paste(slug):
         redirect(data["paste_content"])
     if _wants_json():
         return jsonify({"status": "success", "data": data["paste_content"], "expires": data["paste_expires"]})
-    return highlight(data["paste_content"],
+    output = highlight(data["paste_content"],
                      Python3TracebackLexer(),
                      HtmlFormatter(full=True, linenos="table", lineanchors="l",
-                                   anchorlinenos=True, wrapcode=True,
-                                   style=SimpleStyle))
+                                   anchorlinenos=True, wrapcode=True))
+    # get rid of red boxes. Tried to do this the "official" way but pygments hates me
+    return output.replace(r'class="err"', "")
+
+
+@app.route("/")
+def get_root():
+    return get_paste("")
 
 
 if __name__ == "__main__":

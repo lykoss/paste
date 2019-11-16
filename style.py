@@ -4,7 +4,7 @@ from pygments.token import Error
 
 
 class SimpleStyle(Style):
-    styles = DefaultStyle.styles
+    styles = dict(DefaultStyle.styles.items())
 
 
-del SimpleStyle.styles[Error]
+SimpleStyle.styles[Error] = "border:"
