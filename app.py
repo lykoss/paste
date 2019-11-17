@@ -13,7 +13,7 @@ import webhook
 from style import SimpleStyle
 
 app = Flask(__name__)
-Talisman(app)
+Talisman(app, content_security_policy={"default-src": "'self' 'unsafe-inline'"})
 
 
 def _wants_json():
