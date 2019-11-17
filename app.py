@@ -3,6 +3,7 @@ import string
 import random
 import base64
 from flask import Flask, request, redirect, jsonify, abort, render_template
+from flask_talisman import Talisman
 from pygments import highlight
 from pygments.lexers import Python3TracebackLexer
 from pygments.formatters import HtmlFormatter
@@ -12,6 +13,7 @@ import webhook
 from style import SimpleStyle
 
 app = Flask(__name__)
+Talisman(app)
 
 
 def _wants_json():
