@@ -5,12 +5,11 @@ import base64
 from flask import Flask, request, redirect, jsonify, abort, render_template
 from flask_talisman import Talisman
 from pygments import highlight
-from pygments.lexers import Python3TracebackLexer
+from pygments.lexers import PythonTracebackLexer
 from pygments.formatters import HtmlFormatter
 import db
 import config
 import webhook
-from style import SimpleStyle
 
 app = Flask(__name__)
 Talisman(app, content_security_policy={"default-src": "'self' 'unsafe-inline'"})
@@ -89,9 +88,9 @@ def get_paste(slug):
     if _wants_json():
         return jsonify({"status": "success", "data": data["paste_content"], "expires": data["paste_expires"]})
     output = highlight(data["paste_content"],
-                     Python3TracebackLexer(),
-                     HtmlFormatter(full=True, linenos="table", lineanchors="l",
-                                   anchorlinenos=True, wrapcode=True))
+                       PythonTracebackLexer(),
+                       HtmlFormatter(full=True, linenos="table", lineanchors="l",
+                                     anchorlinenos=True, wrapcode=True))
     # get rid of red boxes. Tried to do this the "official" way but pygments hates me
     return output.replace(r'class="err"', "")
 

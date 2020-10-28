@@ -1,0 +1,4 @@
+---
+deployment:
+  tasks:
+    - /bin/bash /home/werewolf/repositories/paste/deploy2.sh
