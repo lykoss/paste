@@ -38,6 +38,7 @@ echo "Copying files"
 mkdir $DESTPATH
 mkdir $DESTPATH/tmp
 cp -r . $DESTPATH
+cp $BAKPATH/config.py $DESTPATH/config.py
 
 ##########
 # cleanup unnecessary files
