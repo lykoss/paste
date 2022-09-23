@@ -17,7 +17,7 @@ MarkupSafe==2.0.1
 mwoauth==0.3.7
 mysql-connector-python==8.0.26
 oauthlib==3.1.1
-protobuf==3.18.0
+protobuf==3.18.3
 pycparser==2.20
 Pygments==2.10.0
 PyJWT==1.7.1
