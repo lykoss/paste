@@ -4,7 +4,7 @@ cffi==1.14.6
 chardet==4.0.0
 charset-normalizer==2.0.6
 click==8.0.1
-cryptography==3.4.8
+cryptography==39.0.1
 elasticsearch==7.15.0
 Flask==2.0.1
 flask-mwoauth==0.4.82
