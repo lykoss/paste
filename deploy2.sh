@@ -11,7 +11,7 @@
 ##########
 echo "Initializing deployment"
 export VIRTUAL_ENV_DISABLE_PROMPT=1
-source /home/werewolf/virtualenv/paste/3.7/bin/activate
+source /home/werewolf/virtualenv/paste/3.11/bin/activate
 
 SOURCEPATH=/home/werewolf/repositories/paste
 DESTPATH=/home/werewolf/paste
