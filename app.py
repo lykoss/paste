@@ -1,6 +1,6 @@
 from sys import stderr
 import string
-import random
+from random import SystemRandom
 import base64
 from flask import Flask, request, redirect, jsonify, abort, render_template
 from flask_talisman import Talisman
@@ -11,6 +11,7 @@ import db
 import config
 import webhook
 
+random = SystemRandom()
 app = Flask(__name__)
 Talisman(app, content_security_policy={"default-src": "'self' 'unsafe-inline'"})
 
